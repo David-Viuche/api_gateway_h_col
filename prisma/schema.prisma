@@ -45,4 +45,14 @@ model Appointment {
   updateSt  DateTime
   patient   Patient  @relation(fields: [patientId], references: [patientId])
   doctor    Doctor   @relation(fields: [doctorId], references: [doctorId])
+  orders    Order[]
+}
+
+model Order {
+  orderId     Int         @id @default(autoincrement())
+  dateId      Int
+  descr       String
+  date        DateTime
+  specialty   String
+  appointment Appointment @relation(fields: [dateId], references: [dateId])
 }
