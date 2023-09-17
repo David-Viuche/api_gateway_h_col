@@ -26,14 +26,34 @@ export class PatientsService {
   }
 
   async findAll(): Promise<CreatePatientDto[]> {
-    return this.prisma.patient.findMany();
+    return this.prisma.patient.findMany({
+      include: {
+        appointments: {},
+      },
+    });
   }
 
   async findOne(patientId: number): Promise<Patient | null> {
-    const patient = await this.prisma.patient.findUnique({ where: { patientId } });
+    const patient = await this.prisma.patient.findUnique({
+      where: { patientId }, include: {
+        appointments: {},
+      },
+    });
 
     if (!patient) {
-      throw new HttpException('The record with the given ID was not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('The record pacient with the given ID was not found', HttpStatus.NOT_FOUND);
+    }
+    return patient;
+  }
+  async findByIdentification(id: string): Promise<Patient | null> {
+    const patient = await this.prisma.patient.findUnique({
+      where: { id }, include: {
+        appointments: {},
+      },
+    });
+
+    if (!patient) {
+      throw new HttpException('The record with the given identification was not found', HttpStatus.NOT_FOUND);
     }
     return patient;
   }

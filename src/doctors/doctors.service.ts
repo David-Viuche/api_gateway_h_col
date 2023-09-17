@@ -26,16 +26,38 @@ export class DoctorsService {
   }
 
   async findAll(): Promise<CreateDoctorDto[]> {
-    return this.prisma.doctor.findMany();
+    return this.prisma.doctor.findMany({
+      include: {
+        appointments: {},
+      },
+    });
   }
 
   async findOne(id: string): Promise<Doctor> {
-    const doctor = await this.prisma.doctor.findUnique({ where: { id } });
+    const doctor = await this.prisma.doctor.findUnique({
+      where: { id },
+      include: {
+        appointments: {},
+      },
+    });
 
     if (!doctor) {
       throw new HttpException('The record with the given ID was not found', HttpStatus.NOT_FOUND);
     }
     return doctor;
+  }
+  async findOneById(doctorId: number): Promise<Doctor> {
+    const existingDoctor = await this.prisma.doctor.findUnique({
+      where: { doctorId },
+      include: {
+        appointments: {},
+      },
+    })
+
+    if (!existingDoctor) {
+      throw new HttpException('The record doctor with the given ID was not found', HttpStatus.BAD_REQUEST);
+    }
+    return existingDoctor;
   }
 
   async update(doctorId: number, UpdateDoctorDto: UpdateDoctorDto) {
