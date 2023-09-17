@@ -28,7 +28,11 @@ export class PatientsService {
   async findAll(): Promise<CreatePatientDto[]> {
     return this.prisma.patient.findMany({
       include: {
-        appointments: {},
+        appointments: {
+          include: {
+            orders: {}
+          }
+        },
       },
     });
   }
@@ -36,7 +40,11 @@ export class PatientsService {
   async findOne(patientId: number): Promise<Patient | null> {
     const patient = await this.prisma.patient.findUnique({
       where: { patientId }, include: {
-        appointments: {},
+        appointments: {
+          include: {
+            orders: {}
+          }
+        },
       },
     });
 
@@ -48,7 +56,11 @@ export class PatientsService {
   async findByIdentification(id: string): Promise<Patient | null> {
     const patient = await this.prisma.patient.findUnique({
       where: { id }, include: {
-        appointments: {},
+        appointments: {
+          include: {
+            orders: {}
+          }
+        },
       },
     });
 

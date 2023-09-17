@@ -44,16 +44,27 @@ export class AppointmentsService {
             },
           },
         },
+        include: {
+          orders: {}
+        }
       }
     );
   }
 
   async findAll() {
-    return await this.prisma.appointment.findMany();
+    return await this.prisma.appointment.findMany({
+      include: {
+        orders: {}
+      }
+    });
   }
 
   async findOne(dateId: number) {
-    const appointment = await this.prisma.appointment.findUnique({ where: { dateId } });
+    const appointment = await this.prisma.appointment.findUnique({
+      where: { dateId }, include: {
+        orders: {}
+      }
+    });
 
     if (!appointment) {
       throw new HttpException('The record appointment with the given ID was not found', HttpStatus.NOT_FOUND);
@@ -65,7 +76,11 @@ export class AppointmentsService {
 
     const patient = await this.patient.findByIdentification(String(id))
 
-    const appointment = await this.prisma.appointment.findFirst({ where: { patientId: patient.patientId, appoDate: date } });
+    const appointment = await this.prisma.appointment.findFirst({
+      where: { patientId: patient.patientId, appoDate: date }, include: {
+        orders: {}
+      }
+    });
 
     if (!appointment) {
       throw new HttpException('The record with the given data was not found', HttpStatus.NOT_FOUND);
@@ -106,6 +121,9 @@ export class AppointmentsService {
     return this.prisma.appointment.update({
       where: { dateId },
       data: { ...updateAppointmentDto, updateSt: formattedDate },
+      include: {
+        orders: {}
+      }
     });
   }
 
