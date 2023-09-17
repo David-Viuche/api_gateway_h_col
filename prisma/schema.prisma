@@ -11,25 +11,38 @@ datasource db {
 }
 
 model Patient {
-  patientId Int    @id @default(autoincrement())
-  id        String @unique
-  firstName String
-  lastName  String
-  email     String @unique
-  phone     String
-  address   String
-  city      String
+  patientId    Int           @id @default(autoincrement())
+  id           String        @unique
+  firstName    String
+  lastName     String
+  email        String        @unique
+  phone        String
+  address      String
+  city         String
+  appointments Appointment[]
 }
 
 model Doctor {
-  doctorId  Int      @id @default(autoincrement())
-  id        String   @unique
-  firstName String
-  lastName  String
-  email     String   @unique
-  phone     String
-  address   String
-  city      String
-  profCard  String
-  admiDate  DateTime
+  doctorId     Int           @id @default(autoincrement())
+  id           String        @unique
+  firstName    String
+  lastName     String
+  email        String        @unique
+  phone        String
+  address      String
+  city         String
+  profCard     String
+  admiDate     DateTime
+  appointments Appointment[]
+}
+
+model Appointment {
+  dateId    Int      @id @default(autoincrement())
+  patientId Int
+  doctorId  Int
+  appoDate  DateTime
+  state     String
+  updateSt  DateTime
+  patient   Patient  @relation(fields: [patientId], references: [patientId])
+  doctor    Doctor   @relation(fields: [doctorId], references: [doctorId])
 }
