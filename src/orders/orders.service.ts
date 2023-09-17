@@ -31,11 +31,19 @@ export class OrdersService {
   }
 
   async findAll() {
-    return await this.prisma.order.findMany();
+    return await this.prisma.order.findMany({
+      include: {
+        Medicine: {}
+      }
+    });
   }
 
   async findOne(orderId: number) {
-    const order = await this.prisma.order.findUnique({ where: { orderId } });
+    const order = await this.prisma.order.findUnique({
+      where: { orderId }, include: {
+        Medicine: {}
+      }
+    });
 
     if (!order) {
       throw new HttpException('The record order with the given ID was not found', HttpStatus.NOT_FOUND);
@@ -55,6 +63,9 @@ export class OrdersService {
     return this.prisma.order.update({
       where: { orderId },
       data: updateOrderDto,
+      include: {
+        Medicine: {}
+      }
     });
   }
 

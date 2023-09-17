@@ -30,7 +30,11 @@ export class PatientsService {
       include: {
         appointments: {
           include: {
-            orders: {}
+            orders: {
+              include: {
+                Medicine: {}
+              }
+            }
           }
         },
       },
@@ -42,7 +46,11 @@ export class PatientsService {
       where: { patientId }, include: {
         appointments: {
           include: {
-            orders: {}
+            orders: {
+              include: {
+                Medicine: {}
+              }
+            }
           }
         },
       },
@@ -58,7 +66,11 @@ export class PatientsService {
       where: { id }, include: {
         appointments: {
           include: {
-            orders: {}
+            orders: {
+              include: {
+                Medicine: {}
+              }
+            }
           }
         },
       },

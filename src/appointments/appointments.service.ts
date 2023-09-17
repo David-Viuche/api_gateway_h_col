@@ -45,7 +45,11 @@ export class AppointmentsService {
           },
         },
         include: {
-          orders: {}
+          orders: {
+            include: {
+              Medicine: {}
+            }
+          }
         }
       }
     );
@@ -54,7 +58,11 @@ export class AppointmentsService {
   async findAll() {
     return await this.prisma.appointment.findMany({
       include: {
-        orders: {}
+        orders: {
+          include: {
+            Medicine: {}
+          }
+        }
       }
     });
   }
@@ -62,7 +70,11 @@ export class AppointmentsService {
   async findOne(dateId: number) {
     const appointment = await this.prisma.appointment.findUnique({
       where: { dateId }, include: {
-        orders: {}
+        orders: {
+          include: {
+            Medicine: {}
+          }
+        }
       }
     });
 
@@ -78,7 +90,11 @@ export class AppointmentsService {
 
     const appointment = await this.prisma.appointment.findFirst({
       where: { patientId: patient.patientId, appoDate: date }, include: {
-        orders: {}
+        orders: {
+          include: {
+            Medicine: {}
+          }
+        }
       }
     });
 
@@ -122,7 +138,11 @@ export class AppointmentsService {
       where: { dateId },
       data: { ...updateAppointmentDto, updateSt: formattedDate },
       include: {
-        orders: {}
+        orders: {
+          include: {
+            Medicine: {}
+          }
+        }
       }
     });
   }
