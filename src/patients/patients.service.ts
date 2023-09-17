@@ -54,6 +54,12 @@ export class PatientsService {
       }
     }
 
+    const patient = await this.prisma.patient.findUnique({ where: { patientId } });
+
+    if (!patient) {
+      throw new HttpException('The record with the given ID was not found', HttpStatus.NOT_FOUND);
+    }
+
     return this.prisma.patient.update({
       where: { patientId },
       data: updatePatientDto,

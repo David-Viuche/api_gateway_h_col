@@ -20,3 +20,16 @@ model Patient {
   address   String
   city      String
 }
+
+model Doctor {
+  doctorId  Int      @id @default(autoincrement())
+  id        String   @unique
+  firstName String
+  lastName  String
+  email     String   @unique
+  phone     String
+  address   String
+  city      String
+  profCard  String
+  admiDate  DateTime
+}
