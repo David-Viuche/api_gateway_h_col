@@ -56,7 +56,7 @@ export class AppointmentsService {
     const appointment = await this.prisma.appointment.findUnique({ where: { dateId } });
 
     if (!appointment) {
-      throw new HttpException('The record with the given ID was not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('The record appointment with the given ID was not found', HttpStatus.NOT_FOUND);
     }
     return appointment;
   }
