@@ -2,7 +2,8 @@ import { Controller, Get, Post, Body, Put, Param, Delete, ParseIntPipe } from '@
 import { DoctorsService } from './doctors.service';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { UpdateDoctorDto } from './dto/update-doctor.dto';
-
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags('Doctors')
 @Controller('doctors')
 export class DoctorsController {
   constructor(private readonly doctorsService: DoctorsService) { }
