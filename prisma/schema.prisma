@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Patient {
+  patientId    Int           @id @default(autoincrement())
+  id           String        @unique
+  firstName    String
+  lastName     String
+  email        String        @unique
+  phone        String
+  address      String
+  city         String
+  appointments Appointment[]
+}
+
+model Doctor {
+  doctorId     Int           @id @default(autoincrement())
+  id           String        @unique
+  firstName    String
+  lastName     String
+  email        String        @unique
+  phone        String
+  address      String
+  city         String
+  profCard     String
+  admiDate     DateTime
+  appointments Appointment[]
+}
+
+model Appointment {
+  dateId    Int      @id @default(autoincrement())
+  patientId Int
+  doctorId  Int
+  appoDate  DateTime
+  state     String
+  updateSt  DateTime
+  patient   Patient  @relation(fields: [patientId], references: [patientId])
+  doctor    Doctor   @relation(fields: [doctorId], references: [doctorId])
+  orders    Order[]
+}
+
+model Order {
+  orderId     Int         @id @default(autoincrement())
+  dateId      Int
+  descr       String
+  date        DateTime
+  specialty   String
+  appointment Appointment @relation(fields: [dateId], references: [dateId])
+  Medicine    Medicine[]
+}
+
+model Medicine {
+  medId    Int    @id @default(autoincrement())
+  orderId  Int
+  descr    String
+  diseases String
+  order    Order  @relation(fields: [orderId], references: [orderId])
+}
+
+model User {
+  userId Int    @id @default(autoincrement())
+  email  String @unique
+  pass   String
+}
