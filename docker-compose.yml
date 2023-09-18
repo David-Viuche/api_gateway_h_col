@@ -1,4 +1,7 @@
 version: '3.9'
+
+networks:
+  network1:
     
 services:
   db:
@@ -9,3 +12,21 @@ services:
       POSTGRES_PASSWORD: Dev2023*
     ports:
       - 5432:5432
+    networks:
+      - network1
+  nest:
+    container_name: nest_api
+    build: 
+      context: ./
+    restart: always
+    ports:
+      - 3000:3000
+    env_file:
+      - .env 
+    depends_on:
+      - db
+    links:
+      - db
+    networks:
+      - network1
+

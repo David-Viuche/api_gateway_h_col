@@ -2,13 +2,12 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreatePatientDto } from './dto/create-patient.dto';
 import { UpdatePatientDto } from './dto/update-patient.dto';
 import { PrismaService } from '../database/prisma.service';
-import { Patient } from '@prisma/client';
 
 @Injectable()
 export class PatientsService {
   constructor(private prisma: PrismaService) { }
 
-  async create(data: CreatePatientDto): Promise<Patient> {
+  async create(data: CreatePatientDto) {
 
     const existingIdPatient = await this.prisma.patient.findUnique({ where: { id: data.id } });
 
@@ -41,7 +40,7 @@ export class PatientsService {
     });
   }
 
-  async findOne(patientId: number): Promise<Patient | null> {
+  async findOne(patientId: number) {
     const patient = await this.prisma.patient.findUnique({
       where: { patientId }, include: {
         appointments: {
@@ -61,7 +60,7 @@ export class PatientsService {
     }
     return patient;
   }
-  async findByIdentification(id: string): Promise<Patient | null> {
+  async findByIdentification(id: string) {
     const patient = await this.prisma.patient.findUnique({
       where: { id }, include: {
         appointments: {
