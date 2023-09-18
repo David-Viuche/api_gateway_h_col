@@ -65,3 +65,9 @@ model Medicine {
   diseases String
   order    Order  @relation(fields: [orderId], references: [orderId])
 }
+
+model User {
+  userId Int    @id @default(autoincrement())
+  email  String @unique
+  pass   String
+}
