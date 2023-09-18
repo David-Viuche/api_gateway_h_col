@@ -82,3 +82,5 @@ bash
 ```
 npx prisma migrate deploy
 ```
+
+Nota: No se realizaron seeders de información inicial para cargar la base de datos por lo que es necesario registrar información en la colección de postman se encuetran los ejemplos de uso de los diferentes endpoints 
